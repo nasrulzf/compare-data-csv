@@ -1,5 +1,5 @@
 import pandas as pd
-import csv
+import argparse
 
 def search_items_in_csv(csv_file, search_column, search_list, output_file=None):
     """
@@ -59,14 +59,21 @@ def csv_to_array(file_path, column_name):
 
 # Example usage
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Search for items in a CSV file.")
+    parser.add_argument("--file", required=True, help="Path to the CSV file.")
+    parser.add_argument("--column", required=True, help="Column to search in.")
+    parser.add_argument("--compare", required=True, help="List of items to search for.")
+    parser.add_argument("--output", help="Path to save filtered results.")
+    args = parser.parse_args()
+
     # Specify input file, column, and search list
-    csv_file = "2318237007.csv"  # Replace with your CSV file path
-    search_column = "id_number"  # Replace with the column name to search
-    compare_file = "compare.csv"
+    csv_file = args.file  # Replace with your CSV file path
+    search_column = args.column  # Replace with the column name to search
+    compare_file = args.compare
     search_list = csv_to_array(compare_file, "identityno")
 
     # Optionally save to a file
-    output_file = "filtered_data.csv"  # Replace with your desired output file name
+    output_file = args.output  # Replace with your desired output file name
 
     # Search
     result = search_items_in_csv(csv_file, search_column, search_list, output_file)
